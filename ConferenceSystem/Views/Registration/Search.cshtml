@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ConferenceSystem.Models.EventSeminar>
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h2>Search Events</h2>
+
+<p>
+    @using (Html.BeginForm("Search", "Registration", FormMethod.Get))
+    {
+        <div class="form-group">
+            @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Search by event name" })
+            <button type="submit" class="btn btn-primary button-style">Search</button>
+        </div>
+    }
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Registration Fees</th>
+            <th>Maximum Attendees</th>
+            <th>Event Time</th>
+            <th>Event Location</th>
+            <th>Created By</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EventName</td>
+                <td>@item.RegistrationFees</td>
+                <td>@item.MaxAttendees</td>
+                <td>@item.EventTime</td>
+                <td>@item.EventLocation</td>
+                <td>@item.CreatedByUser.FullName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

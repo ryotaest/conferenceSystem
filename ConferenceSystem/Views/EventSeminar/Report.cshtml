@@ -1,0 +1,51 @@
+﻿@model ConferenceSystem.Models.Report
+
+@{
+    ViewData["Title"] = "Report";
+}
+
+<h2>Monthly Event Report</h2>
+<p></p>
+<p>Please select Year and Month to show events.</p>
+<p></p>
+<form method="post" action="@Url.Action("GenerateReport", "EventSeminar")">
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SelectedYear)
+        @Html.DropDownListFor(model => model.SelectedYear, Model.AvailableYears, "Year", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SelectedMonth)
+        @Html.DropDownListFor(model => model.SelectedMonth, Model.AvailableMonths, "Month", new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary button-style">Generate Report</button>
+</form>
+
+@if (Model.MonthlyEvents != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>Registration Fees</th>
+                <th>Maximum Attendees</th>
+                <th>Event Time</th>
+                <th>Event Location</th>
+                <th>Created By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eventSeminar in Model.MonthlyEvents)
+            {
+                <tr>
+                    <td>@eventSeminar.EventName</td>
+                    <td>@eventSeminar.RegistrationFees</td>
+                    <td>@eventSeminar.MaxAttendees</td>
+                    <td>@eventSeminar.EventTime</td>
+                    <td>@eventSeminar.EventLocation</td>
+                    <td>@eventSeminar.CreatedByUser.FirstName @eventSeminar.CreatedByUser.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
